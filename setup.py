@@ -1,17 +1,18 @@
+# coding=utf8
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+version = '0.1'
 
 setup(name='ringo_comment',
       version=version,
-      description="Extension for the ringo webframework",
+      description="Comment extension for the Ringo framework",
       long_description="""""",
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='ringo pyramid extension',
-      author='',
-      author_email='',
-      url='',
+      keywords='ringo extension',
+      author='Torsten Irländer',
+      author_email='torsten.irlaender@googlemail.com',
+      url='https://bitbucket.org/ti/ringo_comment',
       license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
