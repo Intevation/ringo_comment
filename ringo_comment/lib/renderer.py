@@ -44,7 +44,7 @@ class CommentRenderer(FieldRenderer):
                 comments.append(comment)
         if not self._field.is_readonly():
             html.append('<label for="new-comment" class="control-label">')
-            html.append(_('New entry'))
+            html.append(_('New comment'))
             html.append('</label>')
             html.append(('<textarea class="form-control" id="new-comment" '
                          'name="comment"></textarea>'))

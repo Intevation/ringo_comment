@@ -39,6 +39,5 @@ msgid "Created"
 msgstr "Erstellt"
 
 #: ringo_comment/lib/renderer.py:47
-msgid "New entry"
-msgstr "Neuer Eintrag"
-
+msgid "New comment"
+msgstr "Neuer Kommentar"
