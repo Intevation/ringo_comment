@@ -46,7 +46,7 @@ class CommentRenderer(FieldRenderer):
             html.append('<label for="new-comment" class="control-label">')
             html.append(_('New comment'))
             html.append('</label>')
-            html.append(('<textarea class="form-control" id="new-comment" '
+            html.append(('<textarea class="form-control" rows="10" id="new-comment" '
                          'name="comment"></textarea>'))
             html.append('</br>')
         html.append('<label for="">%s (%s)</label>'
