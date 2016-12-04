@@ -42,12 +42,16 @@ class CommentRenderer(FieldRenderer):
                                        comment,
                                        self._field._form._request):
                 comments.append(comment)
+        if self._field._form.has_errors():
+            last_comment =  self._field._form.submitted_data["comment"]
+	else:
+            last_comment = "" 
         if not self._field.is_readonly():
             html.append('<label for="new-comment" class="control-label">')
             html.append(_('New comment'))
             html.append('</label>')
             html.append(('<textarea class="form-control" rows="10" id="new-comment" '
-                         'name="comment"></textarea>'))
+                         'name="comment">%s</textarea>' % cgi.escape(last_comment)))
             html.append('</br>')
         html.append('<label for="">%s (%s)</label>'
                     % (cgi.escape(self._field.label), len(comments)))
