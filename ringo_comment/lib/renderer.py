@@ -43,7 +43,7 @@ class CommentRenderer(FieldRenderer):
                                        self._field._form._request):
                 comments.append(comment)
         if self._field._form.has_errors():
-            last_comment =  self._field._form.submitted_data["comment"]
+            last_comment =  self._field._form.submitted_data.get("comment", "")
 	else:
             last_comment = "" 
         if not self._field.is_readonly():
