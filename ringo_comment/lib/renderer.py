@@ -1,6 +1,15 @@
+import os
+import pkg_resources
 import cgi
+from mako.lookup import TemplateLookup
 import ringo.lib.security as security
 from ringo.lib.renderer.form import FieldRenderer
+
+base_dir = pkg_resources.get_distribution("ringo_comment").location
+template_dir = os.path.join(base_dir, 'ringo_comment', 'templates')
+print template_dir
+template_lookup = TemplateLookup(directories=[template_dir],
+                                 default_filters=['h'])
 
 
 class CommentRenderer(FieldRenderer):
@@ -8,34 +17,10 @@ class CommentRenderer(FieldRenderer):
 
     def __init__(self, field, translate):
         FieldRenderer.__init__(self, field, translate)
+        self.template = template_lookup.get_template("comments.mako")
 
-    def _render_info(self, comment):
-        html = []
-        html.append("<small>")
-        #html.append('<a href="/comments/read/%s">#%s</a>'
-        #            % (comment.id, comment.id))
-        #html.append(" | ")
-        str_updated = comment.updated.strftime("%y.%m.%d %H:%M")
-        str_created = comment.created.strftime("%y.%m.%d %H:%M")
-        html.append(str_created)
-        html.append(" | ")
-        html.append("<bold>"
-                    + cgi.escape(unicode(comment.owner.profile[0]))
-                    + "</bold>")
-        if str_updated != str_created:
-            html.append(" | (")
-            html.append(str_updated)
-            html.append(")</small>")
-        return html
-
-    def _render_body(self, comment):
-        html = []
-        html.append(cgi.escape(comment.text).replace('\n', '<br>') or "")
-        return html
-
-    def render(self):
-        _ = self.translate
-        html = []
+    def _get_template_values(self):
+        values = FieldRenderer._get_template_values(self)
         comments = []
         for comment in self._field._form._item.comments:
             if security.has_permission('read',
@@ -43,33 +28,10 @@ class CommentRenderer(FieldRenderer):
                                        self._field._form._request):
                 comments.append(comment)
         if self._field._form.has_errors():
-            last_comment =  self._field._form.submitted_data.get("comment", "")
-	else:
-            last_comment = "" 
-        if not self._field.is_readonly():
-            html.append('<label for="new-comment" class="control-label">')
-            html.append(_('New comment'))
-            html.append('</label>')
-            html.append(('<textarea class="form-control" rows="10" id="new-comment" '
-                         'name="comment">%s</textarea>' % cgi.escape(last_comment)))
-            html.append('</br>')
-        html.append('<label for="">%s (%s)</label>'
-                    % (cgi.escape(self._field.label), len(comments)))
-        for comment in comments[::-1]:
-            html.append('<input type="checkbox" name="%s" value="%s"'
-                        ' style="display:none"/>'
-                        % (cgi.escape(self._field.name), comment.id))
-            html.append('<div class="readonlyfield">')
-            html.append("<table>")
-            html.append("<tr >")
-            html.append("<td>")
-            html.extend(self._render_body(comment))
-            html.append("</td>")
-            html.append("<tr>")
-            html.append('<td>')
-            html.extend(self._render_info(comment))
-            html.append("</td>")
-            html.append("</tr>")
-            html.append("</table>")
-            html.append("</div>")
-        return "".join(html)
+            last_comment = self._field._form.submitted_data.get("comment", "")
+        else:
+            last_comment = ""
+
+        values['last_comment'] = last_comment
+        values['comments'] = comments
+        return values
