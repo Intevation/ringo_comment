@@ -49,7 +49,8 @@ class Commented(object):
                             sa.Column('cid', sa.Integer,
                                       sa.ForeignKey("comments.id")))
         comments = sa.orm.relationship(Comment,
-                                       secondary=nm_table, cascade="all")
+                                       secondary=nm_table, cascade="all",
+                                       order_by=lambda: Comment.created)
         return comments
 
     @classmethod
