@@ -82,8 +82,8 @@ function getText(element) {
         <small>
         #${comment.id}
         <% 
-        str_updated = comment.updated.strftime("%y.%m.%d %H:%M")
-        str_created = comment.created.strftime("%y.%m.%d %H:%M")
+        str_updated = comment.updated.strftime("%Y-%m-%d %H:%M")
+        str_created = comment.created.strftime("%Y-%m-%d %H:%M")
         %>
         ${str_created} | <bold>${comment.owner.profile[0]}</bold>
         % if str_updated != str_created:
