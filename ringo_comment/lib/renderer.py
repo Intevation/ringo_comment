@@ -37,6 +37,4 @@ class CommentRenderer(FieldRenderer):
         return values
 
     def nl2br(self, value=""):
-        return literal("<br />".join(value.split("\n")))
-
-
+        return literal("<br />".join(cgi.escape(value).split("\n")))
