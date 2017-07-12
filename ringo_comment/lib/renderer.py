@@ -4,10 +4,10 @@ import cgi
 from mako.lookup import TemplateLookup
 import ringo.lib.security as security
 from ringo.lib.renderer.form import FieldRenderer
+from ringo.lib.helpers import literal
 
 base_dir = pkg_resources.get_distribution("ringo_comment").location
 template_dir = os.path.join(base_dir, 'ringo_comment', 'templates')
-print template_dir
 template_lookup = TemplateLookup(directories=[template_dir],
                                  default_filters=['h'])
 
@@ -35,3 +35,8 @@ class CommentRenderer(FieldRenderer):
         values['last_comment'] = last_comment
         values['comments'] = comments
         return values
+
+    def nl2br(self, value=""):
+        return literal("<br />".join(value.split("\n")))
+
+

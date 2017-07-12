@@ -75,7 +75,7 @@ function getText(element) {
   <div class="readonlyfield">
     <table>
       <tr>
-        <td id="comment-${comment.id}">${comment.text.replace('\n', '<br>') | n}</td>
+        <td id="comment-${comment.id}">${renderer.nl2br(comment.text)}</td>
       </tr>
       <tr>
         <td>
